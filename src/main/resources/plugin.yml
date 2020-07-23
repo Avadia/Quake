@@ -1,10 +1,10 @@
-name: QuakeSolo_Serv
+name: QuakeSolo
 main: com.geekpower14.quake.Quake
-version: 1.0.0
+version: 3.0.0
 author: Geekpower14
 website: http://geekpower14.com/
 depend: [SamaGamesAPI]
 commands:
-   q:
-      description: Quake Command
-      aliases: [quake]
+  q:
+    description: Quake Command
+    aliases: [quake]

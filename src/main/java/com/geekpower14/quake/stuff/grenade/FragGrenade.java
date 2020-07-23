@@ -22,10 +22,10 @@ import org.bukkit.inventory.ItemStack;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class FragGrenade extends GrenadeBasic{
+public class FragGrenade extends GrenadeBasic {
     public FragGrenade(int id, int nb) {
         super(id,
-                ""+ChatColor.RED + ChatColor.BOLD + "Grenade à Fragmentation",
+                "" + ChatColor.RED + ChatColor.BOLD + "Grenade à Fragmentation",
                 0L,
                 FireworkEffect.builder().withColor(Color.RED).with(FireworkEffect.Type.BALL_LARGE).build());
         setNB(nb);
@@ -33,7 +33,7 @@ public class FragGrenade extends GrenadeBasic{
 
     @Override
     public ItemStack getItem() {
-        ItemStack coucou = setItemNameAndLore(new ItemStack(Material.CLAY_BALL), ""+ChatColor.RED + ChatColor.BOLD + "Grenade à Fragmentation", new String[]{
+        ItemStack coucou = setItemNameAndLore(new ItemStack(Material.CLAY_BALL), "" + ChatColor.RED + ChatColor.BOLD + "Grenade à Fragmentation", new String[]{
                 ChatColor.DARK_GRAY + "Explose au bout de " + ChatColor.GOLD + "3" + ChatColor.DARK_GRAY + " secondes.",
                 ChatColor.DARK_GRAY + "Élimine les joueurs " + ChatColor.GOLD + "3" + ChatColor.DARK_GRAY + " blocs autour."
         }, true);

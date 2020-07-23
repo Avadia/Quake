@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /*
@@ -26,7 +25,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class ScoreHandler implements Runnable{
+public class ScoreHandler implements Runnable {
 
     public Quake plugin;
 
@@ -37,8 +36,7 @@ public class ScoreHandler implements Runnable{
 
     public List<APlayer> players = new ArrayList<>();
 
-    public ScoreHandler(Quake plugin, ArenaSolo aren)
-    {
+    public ScoreHandler(Quake plugin, ArenaSolo aren) {
         this.plugin = plugin;
         this.arena = aren;
         players.addAll(aren.getAPlayersList());
@@ -46,57 +44,48 @@ public class ScoreHandler implements Runnable{
         bt = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, 0L, 1L);
     }
 
-    public void addPlayer(APlayer aPlayer)
-    {
+    public void addPlayer(APlayer aPlayer) {
         players.add(aPlayer);
     }
 
-    public void removePlayer(APlayer aPlayer)
-    {
+    public void removePlayer(APlayer aPlayer) {
         players.remove(aPlayer);
     }
 
-    public void stop()
-    {
+    public void stop() {
         bt.cancel();
     }
 
-    public void requestUpdate()
-    {
+    public void requestUpdate() {
         needToUpdate = true;
     }
 
-    public void setNeedUpdate(boolean t)
-    {
+    public void setNeedUpdate(boolean t) {
         needToUpdate = t;
     }
 
-    public boolean needToUpdate()
-    {
+    public boolean needToUpdate() {
         return needToUpdate;
     }
 
     @Override
     public void run() {
 
-        if(needToUpdate)
-        {
+        if (needToUpdate) {
             //plugin.log.info("LOOLL");
             needToUpdate = false;
 
-            Collections.sort(players, (o1, o2) -> -Integer.compare(o1.getScore(), o2.getScore()));
+            players.sort((o1, o2) -> -Integer.compare(o1.getScore(), o2.getScore()));
 
-            try{
+            try {
                 Bukkit.getScheduler().runTask(plugin, () -> arena.getAPlayersList().forEach(APlayer::updateScoreboard));
-            }catch(Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public List<APlayer> getSortedList()
-    {
+    public List<APlayer> getSortedList() {
         return players;
     }
 }

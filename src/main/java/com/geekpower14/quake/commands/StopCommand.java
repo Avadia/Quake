@@ -21,52 +21,47 @@ import org.bukkit.entity.Player;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class StopCommand implements BasicCommand{
+public class StopCommand implements BasicCommand {
 
-	private Quake plugin;
+    private final Quake plugin;
 
-	public StopCommand(Quake pl)
-	{
-		plugin = pl;
-	}
+    public StopCommand(Quake pl) {
+        plugin = pl;
+    }
 
-	@Override
-	public boolean onCommand(Player player, String[] args) {
+    @Override
+    public boolean onCommand(Player player, String[] args) {
 
-		if(Quake.hasPermission(player, this.getPermission()))
-		{
-			Arena arena = plugin.getArenaManager().getArenabyPlayer(player);
-			if(arena == null)
-			{
-				player.sendMessage(ChatColor.RED + "Vous n'êtes pas dans une arène!");
-				return true;
-			}
-			
-			arena.handleGameEnd();
-			
-			player.sendMessage(ChatColor.GREEN + "Force beginning for the arena : " + args[0]);
+        if (Quake.hasPermission(player, this.getPermission())) {
+            Arena arena = plugin.getArenaManager().getArenabyPlayer(player);
+            if (arena == null) {
+                player.sendMessage(ChatColor.RED + "Vous n'êtes pas dans une arène!");
+                return true;
+            }
 
-			return true;
-		}else
-		{
-			player.sendMessage(ChatColor.RED + "Vous n'avez pas la permission.");
-		}
+            arena.handleGameEnd();
 
-		return true;		
-	}
+            player.sendMessage(ChatColor.GREEN + "Force beginning for the arena : " + args[0]);
 
-	@Override
-	public String help(Player p) {
-		if(Quake.hasPermission(p, this.getPermission()))
-		{
-			return "/q stop [arena] - Force stop une arene.";
-		}
-		return "";
-	}
+            return true;
+        } else {
+            player.sendMessage(ChatColor.RED + "Vous n'avez pas la permission.");
+        }
 
-	@Override
-	public String getPermission() {
-		return "quake.modo";
-	}
+        return true;
+    }
+
+    @Override
+    public String help(Player p) {
+        if (Quake.hasPermission(p, this.getPermission())) {
+            return "/q stop [arena] - Force stop une arene.";
+        }
+        return "";
+    }
+
+    @Override
+    public String getPermission() {
+        return "quake.modo";
+    }
 
 }

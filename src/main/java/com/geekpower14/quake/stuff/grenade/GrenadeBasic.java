@@ -2,13 +2,13 @@ package com.geekpower14.quake.stuff.grenade;
 
 import com.geekpower14.quake.Quake;
 import com.geekpower14.quake.arena.APlayer;
-import com.geekpower14.quake.arena.ArenaStatisticsHelper;
-import com.geekpower14.quake.utils.Utils.ItemSlot;
 import com.geekpower14.quake.arena.Arena;
+import com.geekpower14.quake.arena.ArenaStatisticsHelper;
 import com.geekpower14.quake.stuff.TItem;
-import com.geekpower14.quake.utils.ParticleEffect;
 import com.geekpower14.quake.utils.Utils;
+import com.geekpower14.quake.utils.Utils.ItemSlot;
 import net.samagames.api.SamaGamesAPI;
+import net.samagames.tools.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -19,6 +19,8 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Objects;
 
 /*
  * This file is part of Quake.
@@ -49,26 +51,22 @@ public abstract class GrenadeBasic extends TItem {
         effect = e;
     }
 
-    protected void basicShot(final Player player, ItemSlot slot)
-    {
+    protected void basicShot(final Player player, ItemSlot slot) {
         final Arena arena = plugin.getArenaManager().getArenabyPlayer(player);
 
-        if(arena == null)
-        {
+        if (arena == null) {
             return;
         }
 
         final APlayer ap = arena.getAplayer(player);
 
-        if(ap.isInvincible())
-        {
+        if (ap.isInvincible()) {
             return;
         }
 
         ItemStack gStack = player.getInventory().getItem(slot.getSlot());
 
-        if(gStack == null || gStack.getAmount() <= 0)
-        {
+        if (gStack == null || gStack.getAmount() <= 0) {
             return;
         }
 
@@ -92,67 +90,57 @@ public abstract class GrenadeBasic extends TItem {
 
             public double time = timeBeforeExplode;
 
-            public Item item = grenad;
+            public final Item item = grenad;
 
             @Override
             public void run() {
 
 
-                if(item != null && item.isOnGround())
-                {
+                if (item != null && item.isOnGround()) {
                     try {
                         ParticleEffect.FIREWORKS_SPARK.display(0.07F, 0.04F, 0.07F, 0.00005F, 1, item.getLocation(), 50);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                for(Player p : Quake.getOnline())
-                {
-                    if(time % 2 == 0.0F)
-                    {
-                        p.getWorld().playSound(item.getLocation(), Sound.BLOCK_NOTE_PLING, 0.5F, 1.5F);
-                    }else
-                    {
-                        p.getWorld().playSound(item.getLocation(), Sound.BLOCK_NOTE_PLING, 0.5F, 0.5F);
+                for (Player p : Quake.getOnline()) {
+                    if (time % 2 == 0.0F) {
+                        p.getWorld().playSound(Objects.requireNonNull(item).getLocation(), Sound.BLOCK_NOTE_PLING, 0.5F, 1.5F);
+                    } else {
+                        p.getWorld().playSound(Objects.requireNonNull(item).getLocation(), Sound.BLOCK_NOTE_PLING, 0.5F, 0.5F);
                     }
                 }
 
-                if(item == null || item.isDead())
-                {
+                if (item == null || item.isDead()) {
                     this.cancel();
                     return;
                 }
 
-                if(time <= 0)
-                {
+                if (time <= 0) {
                     explode(this, ap, item);
                     //this.cancel();
                     return;
                 }
 
-                time-=0.25;
+                time -= 0.25;
             }
         }.runTaskTimerAsynchronously(plugin, 0L, 5L);
     }
 
-    public void explode(BukkitRunnable br, final APlayer ap, final Item item)
-    {
+    public void explode(BukkitRunnable br, final APlayer ap, final Item item) {
         final Arena arena = ap.getArena();
         Bukkit.getScheduler().cancelTask(br.getTaskId());
         //br.cancel();
 
-        if(item == null || item.isDead())
+        if (item == null || item.isDead())
             return;
 
         int compte = 0;
-        for(Entity entity : item.getNearbyEntities(3, 4, 3))
-        {
-            if(entity instanceof Player)
-            {
+        for (Entity entity : item.getNearbyEntities(3, 4, 3)) {
+            if (entity instanceof Player) {
                 Player target = (Player) entity;
 
-                if(arena.shotplayer(ap.getP(), target, this.effect))
-                {
+                if (arena.shotplayer(ap.getP(), target, this.effect)) {
                     compte++;
                 }
             }
@@ -169,12 +157,11 @@ public abstract class GrenadeBasic extends TItem {
         final int tt = compte;
         if (tt >= 1) {
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                try{
+                try {
                     arena.addCoins(ap.getP(), tt, "Kill !");
                     ap.setCoins(ap.getCoins() + tt);
                     ((ArenaStatisticsHelper) SamaGamesAPI.get().getGameManager().getGameStatisticsHelper()).increaseKills(ap.getUUID(), tt);
-                }catch(Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
@@ -183,23 +170,21 @@ public abstract class GrenadeBasic extends TItem {
     }
 
     @Override
-    public void setNB(int nb)
-    {
+    public void setNB(int nb) {
         this.currentNumber = nb;
         this.nb = nb;
     }
 
-    public int getCurrentNumber()
-    {
+    public int getCurrentNumber() {
         return currentNumber;
     }
 
-    public void setCurrentNumber(int nb)
-    {
+    public void setCurrentNumber(int nb) {
         currentNumber = nb;
     }
 
-    public void leftAction(APlayer p, ItemSlot slot) {}
+    public void leftAction(APlayer p, ItemSlot slot) {
+    }
 
     public void rightAction(APlayer ap, ItemSlot slot) {
         basicShot(ap.getP(), slot);

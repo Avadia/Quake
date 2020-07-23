@@ -16,32 +16,28 @@ package com.geekpower14.quake.classes;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public abstract class Classe implements Cloneable{
+public abstract class Classe implements Cloneable {
 
-    public String name = "Unknown";
+    public String name;
 
-    public String alias = "";
+    public String alias;
 
     public String givePerm = "quake.admin";
 
-    public Classe(String name, String display)
-    {
+    public Classe(String name, String display) {
         this.name = name;
         this.alias = display;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return alias;
     }
 
-    public String getGivePerm()
-    {
+    public String getGivePerm() {
         return this.givePerm;
     }
 
@@ -51,7 +47,7 @@ public abstract class Classe implements Cloneable{
             // On récupère l'instance à renvoyer par l'appel de la
             // méthode super.clone()
             o = super.clone();
-        } catch(CloneNotSupportedException cnse) {
+        } catch (CloneNotSupportedException cnse) {
             // Ne devrait jamais arriver car nous implémentons
             // l'interface Cloneable
             cnse.printStackTrace(System.err);

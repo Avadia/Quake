@@ -21,33 +21,27 @@ import java.util.UUID;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class ArenaStatisticsHelper implements IGameStatisticsHelper
-{
+public class ArenaStatisticsHelper implements IGameStatisticsHelper {
     @Override
-    public void increasePlayedTime(UUID uuid, long playedTime)
-    {
+    public void increasePlayedTime(UUID uuid, long playedTime) {
         SamaGamesAPI.get().getStatsManager().getPlayerStats(uuid).getQuakeStatistics().incrByPlayedTime(playedTime);
     }
 
     @Override
-    public void increasePlayedGames(UUID uuid)
-    {
+    public void increasePlayedGames(UUID uuid) {
         SamaGamesAPI.get().getStatsManager().getPlayerStats(uuid).getQuakeStatistics().incrByPlayedGames(1);
     }
 
     @Override
-    public void increaseWins(UUID uuid)
-    {
+    public void increaseWins(UUID uuid) {
         SamaGamesAPI.get().getStatsManager().getPlayerStats(uuid).getQuakeStatistics().incrByWins(1);
     }
 
-    public void increaseKills(UUID uuid, int kills)
-    {
+    public void increaseKills(UUID uuid, int kills) {
         SamaGamesAPI.get().getStatsManager().getPlayerStats(uuid).getQuakeStatistics().incrByKills(kills);
     }
 
-    public void increaseDeaths(UUID uuid)
-    {
+    public void increaseDeaths(UUID uuid) {
         SamaGamesAPI.get().getStatsManager().getPlayerStats(uuid).getQuakeStatistics().incrByDeaths(1);
     }
 }

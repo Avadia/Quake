@@ -20,21 +20,19 @@ import org.bukkit.entity.Player;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class ArenaManager {
-	
-	private Quake plugin;
 
-	private Arena ARENA;
+    private final Quake plugin;
 
-	public ArenaManager(Quake pl)
-	{
-		plugin = pl;
-		
-		loadArenas();
-	}
-	
-	public void loadArenas()
-	{
-		addArena();
+    private Arena ARENA;
+
+    public ArenaManager(Quake pl) {
+        plugin = pl;
+
+        loadArenas();
+    }
+
+    public void loadArenas() {
+        addArena();
 		/*File folder = new File(plugin.getDataFolder(), "../../world/arenas/");
         if(!folder.exists())
             folder.mkdir();
@@ -67,59 +65,51 @@ public class ArenaManager {
         	plugin.log.info(ChatColor.GREEN + "arena " + mapname);
         	
         }*/
-        
-	}
 
-	public void addArena() {
-		Arena arena;
-		if(plugin.getType().equals("team"))
-		{
-			arena = new ArenaTeam(plugin);
-		}else{
-			arena = new ArenaSolo(plugin);
-		}
+    }
 
-		plugin.getSamaGamesAPI().getGameManager().registerGame(arena);
-		ARENA = arena;
-	}
+    public void addArena() {
+        Arena arena;
+        if (plugin.getType().equals("team")) {
+            arena = new ArenaTeam(plugin);
+        } else {
+            arena = new ArenaSolo(plugin);
+        }
 
-	@Deprecated
-	public void removeArena(String name)
-	{
-		Arena aren = getArena(name);
-		
-		aren.handleGameEnd();
+        plugin.getSamaGamesAPI().getGameManager().registerGame(arena);
+        ARENA = arena;
+    }
 
-		ARENA = null;
-	}
+    @Deprecated
+    public void removeArena(String name) {
+        Arena aren = getArena(name);
 
-	public Arena getArena()
-	{
-		return ARENA;
-	}
-	
-	public Arena getArena(String name)
-	{
-		return ARENA;
-	}
-	
-	public boolean exist(String name)
-	{
-		return ARENA != null;
-	}
-	
-	public void disable()
-	{
-		ARENA.disable();
-	}
+        aren.handleGameEnd();
 
-	public Arena getArenabyPlayer(Player p)
-	{
-		if(ARENA.hasPlayer(p))
-		{
-			return ARENA;
-		}
+        ARENA = null;
+    }
 
-		return null;
-	}
+    public Arena getArena() {
+        return ARENA;
+    }
+
+    public Arena getArena(String name) {
+        return ARENA;
+    }
+
+    public boolean exist(String name) {
+        return ARENA != null;
+    }
+
+    public void disable() {
+        ARENA.disable();
+    }
+
+    public Arena getArenabyPlayer(Player p) {
+        if (ARENA.hasPlayer(p)) {
+            return ARENA;
+        }
+
+        return null;
+    }
 }

@@ -22,20 +22,19 @@ import org.bukkit.inventory.ItemStack;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class BlasterHoe extends HoeBasic{
+public class BlasterHoe extends HoeBasic {
 
-	public BlasterHoe()
-	{
-		super(87,
-				ChatColor.BLUE + "Blaster DL-22",
-				secondToTick(1.1),
-				FireworkEffect.builder().withColor(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build());
+    public BlasterHoe() {
+        super(87,
+                ChatColor.BLUE + "Blaster DL-22",
+                secondToTick(1.1),
+                FireworkEffect.builder().withColor(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build());
         //this.aim = 1.2;
-	}
+    }
 
-	public ItemStack getItem() {
-		return setItemNameAndLore(new ItemStack(Material.DIAMOND_BARDING), ChatColor.BLUE + "Blaster DL-22", new String[]{
-				ChatColor.DARK_GRAY + "Recharge en " + ChatColor.GOLD +"1.1" + ChatColor.DARK_GRAY + " secondes."
-		}, false);
-	}
+    public ItemStack getItem() {
+        return setItemNameAndLore(new ItemStack(Material.DIAMOND_BARDING), ChatColor.BLUE + "Blaster DL-22", new String[]{
+                ChatColor.DARK_GRAY + "Recharge en " + ChatColor.GOLD + "1.1" + ChatColor.DARK_GRAY + " secondes."
+        }, false);
+    }
 }

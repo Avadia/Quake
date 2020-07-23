@@ -21,52 +21,47 @@ import org.bukkit.entity.Player;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class StartCommand implements BasicCommand{
-	
-	private Quake plugin;
+public class StartCommand implements BasicCommand {
 
-	public StartCommand(Quake pl)
-	{
-		plugin = pl;
-	}
-	
-	@Override
-	public boolean onCommand(Player player, String[] args) {
-		
-		if(Quake.hasPermission(player, this.getPermission()))
-		{
-			Arena arena = plugin.getArenaManager().getArenabyPlayer(player);
-			if(arena == null)
-			{
-				player.sendMessage(ChatColor.RED + "Vous n'êtes pas dans une arène!");
-				return true;
-			}
-			
-			arena.startGame();
-			
-			player.sendMessage(ChatColor.GREEN + "Force beginning for the arena");
-			
-			
-		}else
-		{
-			player.sendMessage(ChatColor.RED + "Vous n'avez pas la permission.");
-		}
-		
-		return true;		
-	}
+    private final Quake plugin;
 
-	@Override
-	public String help(Player p) {
-		if(Quake.hasPermission(p, this.getPermission()))
-		{
-			return "/q startGame [arena] - Force startGame an arena.";
-		}
-		return "";
-	}
+    public StartCommand(Quake pl) {
+        plugin = pl;
+    }
 
-	@Override
-	public String getPermission() {
-		return "quake.modo";
-	}
+    @Override
+    public boolean onCommand(Player player, String[] args) {
+
+        if (Quake.hasPermission(player, this.getPermission())) {
+            Arena arena = plugin.getArenaManager().getArenabyPlayer(player);
+            if (arena == null) {
+                player.sendMessage(ChatColor.RED + "Vous n'êtes pas dans une arène!");
+                return true;
+            }
+
+            arena.startGame();
+
+            player.sendMessage(ChatColor.GREEN + "Force beginning for the arena");
+
+
+        } else {
+            player.sendMessage(ChatColor.RED + "Vous n'avez pas la permission.");
+        }
+
+        return true;
+    }
+
+    @Override
+    public String help(Player p) {
+        if (Quake.hasPermission(p, this.getPermission())) {
+            return "/q startGame [arena] - Force startGame an arena.";
+        }
+        return "";
+    }
+
+    @Override
+    public String getPermission() {
+        return "quake.modo";
+    }
 
 }

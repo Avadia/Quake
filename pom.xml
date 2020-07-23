@@ -15,18 +15,8 @@
 
     <repositories>
         <repository>
-            <id>samagames-public</id>
-            <url>http://maven.samagames.net/public/</url>
-        </repository>
-
-        <repository>
-            <id>samagames-developpers</id>
-            <url>http://maven.samagames.net/developpers/</url>
-        </repository>
-
-        <repository>
-            <id>samagames-network</id>
-            <url>http://maven.samagames.net/network/</url>
+            <id>papermc-repo</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
     </repositories>
 
@@ -34,15 +24,20 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.10.2-R0.1-SNAPSHOT</version>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>net.samagames</groupId>
             <artifactId>SamaGamesAPI</artifactId>
-            <version>4.0.0</version>
-            <scope>compile</scope>
+            <version>5.0.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

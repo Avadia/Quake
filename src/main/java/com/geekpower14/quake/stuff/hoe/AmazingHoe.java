@@ -23,20 +23,19 @@ import org.bukkit.inventory.ItemStack;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class AmazingHoe extends HoeBasic{
+public class AmazingHoe extends HoeBasic {
 
-	public AmazingHoe()
-	{
-		super(86,
-				ChatColor.BLUE + "Amazing PortalGun",
-				TItem.secondToTick(1.3),
-				FireworkEffect.builder().withColor(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build());
+    public AmazingHoe() {
+        super(86,
+                ChatColor.BLUE + "Amazing PortalGun",
+                TItem.secondToTick(1.3),
+                FireworkEffect.builder().withColor(Color.FUCHSIA).with(FireworkEffect.Type.CREEPER).build());
         //this.aim = 1.2;
-	}
+    }
 
-	public ItemStack getItem() {
-		return TItem.setItemNameAndLore(new ItemStack(Material.DIAMOND_HOE), ChatColor.BLUE + "Amazing PortalGun", new String[]{
-				ChatColor.DARK_GRAY + "Recharge en " + ChatColor.GOLD +"1.3" + ChatColor.DARK_GRAY + " secondes."
-		}, true);
-	}
+    public ItemStack getItem() {
+        return TItem.setItemNameAndLore(new ItemStack(Material.DIAMOND_HOE), ChatColor.BLUE + "Amazing PortalGun", new String[]{
+                ChatColor.DARK_GRAY + "Recharge en " + ChatColor.GOLD + "1.3" + ChatColor.DARK_GRAY + " secondes."
+        }, true);
+    }
 }

@@ -1,4 +1,3 @@
-
 package com.geekpower14.quake.arena;
 
 import com.geekpower14.quake.Quake;
@@ -13,6 +12,7 @@ import net.samagames.api.games.IGameProperties;
 import net.samagames.api.games.Status;
 import net.samagames.api.games.themachine.messages.templates.PlayerWinTemplate;
 import net.samagames.tools.ColorUtils;
+import net.samagames.tools.LocationUtils;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /*
@@ -39,10 +40,10 @@ import java.util.Random;
  * You should have received a copy of the GNU General Public License
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
-public class ArenaSolo extends Arena{
+public class ArenaSolo extends Arena {
 
     public List<Spawn> spawn = new ArrayList<>();
-    private ScoreHandler scoreHandler;
+    private final ScoreHandler scoreHandler;
 
     public ArenaSolo(Quake pl) {
         super(pl);
@@ -60,11 +61,10 @@ public class ArenaSolo extends Arena{
         spawnDefault.add(new JsonPrimitive(""));
         spawnDefault.add(new JsonPrimitive(""));
 
-        JsonArray potions = properties.getOption("Spawns", spawnDefault).getAsJsonArray();
+        JsonArray potions = properties.getGameOption("Spawns", spawnDefault).getAsJsonArray();
 
-        for(JsonElement data : potions)
-        {
-            spawn.add(new Spawn(Utils.str2loc(data.getAsString())));
+        for (JsonElement data : potions) {
+            spawn.add(new Spawn(LocationUtils.str2loc(data.getAsString())));
         }
     }
 
@@ -80,7 +80,7 @@ public class ArenaSolo extends Arena{
 
     @Override
     protected void execJoinPlayer(APlayer ap) {
-        Player p  = ap.getP();
+        Player p = ap.getP();
         p.teleport(getSpawn(p));
         scoreHandler.addPlayer(ap);
         /*this.broadcast(ChatColor.YELLOW
@@ -103,12 +103,10 @@ public class ArenaSolo extends Arena{
 
     @Override
     protected void execAfterLeavePlayer() {
-        if(getStatus() == Status.IN_GAME)
-        {
-            if(getInGamePlayers().size() == 1)
-            {
+        if (getStatus() == Status.IN_GAME) {
+            if (getInGamePlayers().size() == 1) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> win(gamePlayers.values().iterator().next().getP()), 1L);
-            }else if(getConnectedPlayers() <= 0){
+            } else if (getConnectedPlayers() <= 0) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::handleGameEnd, 1L);
             }
         }
@@ -117,8 +115,7 @@ public class ArenaSolo extends Arena{
     @Override
     protected void execStart() {
 
-        for(APlayer ap : getInGamePlayers().values())
-        {
+        for (APlayer ap : getInGamePlayers().values()) {
             Player p = ap.getP();
 
             Bukkit.getScheduler().runTask(plugin, () -> {
@@ -142,8 +139,7 @@ public class ArenaSolo extends Arena{
     @Override
     protected void execWin(Object o) {
         final Player p = (Player) o;
-        if(p == null)
-        {
+        if (p == null) {
             handleGameEnd();
             return;
         }
@@ -155,25 +151,23 @@ public class ArenaSolo extends Arena{
         PlayerWinTemplate template = this.coherenceMachine.getTemplateManager().getPlayerWinTemplate();
         template.execute(p);
 
-        try{
+        try {
             addCoins(p, 20, "Victoire !");
             ap.setCoins(ap.getCoins() + 20);
-            addStars(p, 3, "Premier au Quake !");
-        }catch(Exception e)
-        {
+            //addStars(p, 3, "Premier au Quake !");
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         final int nb = (int) (10 * 1.5);
 
 
-        final int infoxp = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable()
-        {
+        final int infoxp = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
             int compteur = 0;
+
             public void run() {
 
-                if(compteur >= nb)
-                {
+                if (compteur >= nb) {
                     return;
                 }
 
@@ -186,7 +180,7 @@ public class ArenaSolo extends Arena{
 
                 //Get the type
                 int rt = r.nextInt(4) + 1;
-                FireworkEffect.Type type = FireworkEffect.Type.BALL;
+                FireworkEffect.Type type = null;
                 if (rt == 1) type = FireworkEffect.Type.BALL;
                 if (rt == 2) type = FireworkEffect.Type.BALL_LARGE;
                 if (rt == 3) type = FireworkEffect.Type.BURST;
@@ -200,7 +194,7 @@ public class ArenaSolo extends Arena{
                 Color c2 = ColorUtils.getColor(r2i);
 
                 //Create our effect with this
-                FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(r.nextBoolean()).build();
+                FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(Objects.requireNonNull(type)).trail(r.nextBoolean()).build();
 
                 //Then apply the effect to the meta
                 fwm.addEffect(effect);
@@ -220,16 +214,17 @@ public class ArenaSolo extends Arena{
     }
 
     @Override
-    public void extraStuf(APlayer ap) {}
+    public void extraStuf(APlayer ap) {
+    }
 
     @Override
     protected boolean execShotPlayer(final Player shooter, final Player victim, final FireworkEffect effect) {
         final APlayer ashooter = this.getAplayer(shooter);
         final APlayer avictim = this.getAplayer(victim);
 
-        if(avictim == null)
+        if (avictim == null)
             return false;
-        if(victim.equals(shooter) || avictim.isInvincible())
+        if (victim.equals(shooter) || avictim.isInvincible())
             return false;
 
         avictim.setinvincible(true);
@@ -253,41 +248,34 @@ public class ArenaSolo extends Arena{
         });
         ashooter.addScore(1);
 
-        if(ashooter.getScore() == goal)
-        {
+        if (ashooter.getScore() == goal) {
             setStatus(Status.REBOOTING);
             Bukkit.getScheduler().scheduleSyncDelayedTask(this.plugin, () -> win(shooter), 2);
         }
         return true;
     }
 
-    public void tp(Player p)
-    {
-        if(spawn != null)
-        {
+    public void tp(Player p) {
+        if (spawn != null) {
             p.teleport(getSpawn(p));
         }
     }
 
-    public Location getSpawn(Player p)
-    {
+    public Location getSpawn(Player p) {
         Spawn r = null;
         List<Spawn> spawns = new ArrayList<>();
-        for(Spawn s : spawn)
-        {
-            if(r == null)
-            {
+        for (Spawn s : spawn) {
+            if (r == null) {
                 r = s;
                 continue;
             }
 
-            if(s.getUses() < r.getUses())
+            if (s.getUses() < r.getUses())
                 r = s;
         }
 
-        for(Spawn s : spawn)
-        {
-            if(s.getUses() <= r.getUses())
+        for (Spawn s : spawn) {
+            if (s.getUses() <= r.getUses())
                 spawns.add(s);
         }
         Random rr = new Random();
@@ -300,13 +288,11 @@ public class ArenaSolo extends Arena{
         return l.getLoc();
     }
 
-    public void updateScore()
-    {
+    public void updateScore() {
         scoreHandler.requestUpdate();
     }
 
-    public void addSpawn(Location loc)
-    {
+    public void addSpawn(Location loc) {
         spawn.add(new Spawn(loc));
     }
 

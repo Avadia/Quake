@@ -24,11 +24,9 @@ public class ClasseManager {
     public List<Classe> classes = new ArrayList<>();
 
 
-    public Classe getClasseByName(String name)
-    {
-        for(Classe i : classes)
-        {
-            if(i.getName().equals(name))
+    public Classe getClasseByName(String name) {
+        for (Classe i : classes) {
+            if (i.getName().equals(name))
                 return (Classe) i.clone();
         }
 
