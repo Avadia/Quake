@@ -26,7 +26,6 @@ import java.util.List;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class ScoreHandler implements Runnable {
-
     public Quake plugin;
 
     public ArenaSolo arena;
@@ -70,9 +69,7 @@ public class ScoreHandler implements Runnable {
 
     @Override
     public void run() {
-
         if (needToUpdate) {
-            //plugin.log.info("LOOLL");
             needToUpdate = false;
 
             players.sort((o1, o2) -> -Integer.compare(o1.getScore(), o2.getScore()));

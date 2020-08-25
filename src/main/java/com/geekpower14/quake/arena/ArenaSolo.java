@@ -61,7 +61,7 @@ public class ArenaSolo extends Arena {
         spawnDefault.add(new JsonPrimitive(""));
         spawnDefault.add(new JsonPrimitive(""));
 
-        JsonArray potions = properties.getGameOption("Spawns", spawnDefault).getAsJsonArray();
+        JsonArray potions = properties.getMapProperty("spawns", spawnDefault).getAsJsonArray();
 
         for (JsonElement data : potions) {
             spawn.add(new Spawn(LocationUtils.str2loc(data.getAsString())));
@@ -238,11 +238,11 @@ public class ArenaSolo extends Arena {
             }
 
             coherenceMachine.getMessageManager().writeCustomMessage(ChatColor.RED
-                    + plugin.getSamaGamesAPI().getPermissionsManager().getPrefix(plugin.getSamaGamesAPI().getPermissionsManager().getPlayer(shooter.getUniqueId()))
+                    + SamaGamesAPI.get().getPermissionsManager().getPrefix(SamaGamesAPI.get().getPermissionsManager().getPlayer(shooter.getUniqueId()))
                     + shooter.getName()
                     + ChatColor.YELLOW
                     + " a touché "
-                    + plugin.getSamaGamesAPI().getPermissionsManager().getPrefix(plugin.getSamaGamesAPI().getPermissionsManager().getPlayer(victim.getUniqueId()))
+                    + SamaGamesAPI.get().getPermissionsManager().getPrefix(SamaGamesAPI.get().getPermissionsManager().getPlayer(victim.getUniqueId()))
                     + victim.getName(), true);
             shooter.playSound(shooter.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 3, 2);
         });

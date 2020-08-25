@@ -23,11 +23,9 @@ import java.util.List;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class ItemManager {
-
     public List<TItem> stuff = new ArrayList<>();
 
     public ItemManager() {
-
         stuff.add(new WoodenHoe());
         stuff.add(new StoneHoe());
         stuff.add(new IronHoe());
@@ -63,5 +61,4 @@ public class ItemManager {
 
         return getItemByID(defaut);
     }
-
 }

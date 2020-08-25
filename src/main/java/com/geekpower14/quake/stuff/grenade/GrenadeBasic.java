@@ -5,8 +5,8 @@ import com.geekpower14.quake.arena.APlayer;
 import com.geekpower14.quake.arena.Arena;
 import com.geekpower14.quake.arena.ArenaStatisticsHelper;
 import com.geekpower14.quake.stuff.TItem;
+import com.geekpower14.quake.utils.ItemSlot;
 import com.geekpower14.quake.utils.Utils;
-import com.geekpower14.quake.utils.Utils.ItemSlot;
 import net.samagames.api.SamaGamesAPI;
 import net.samagames.tools.ParticleEffect;
 import org.bukkit.Bukkit;
@@ -39,7 +39,6 @@ import java.util.Objects;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public abstract class GrenadeBasic extends TItem {
-
     public FireworkEffect effect;
 
     public double timeBeforeExplode = 1;
@@ -87,15 +86,11 @@ public abstract class GrenadeBasic extends TItem {
         grenad.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(1.5));
         grenad.setPickupDelay(999999);
         new BukkitRunnable() {
-
             public double time = timeBeforeExplode;
-
             public final Item item = grenad;
 
             @Override
             public void run() {
-
-
                 if (item != null && item.isOnGround()) {
                     try {
                         ParticleEffect.FIREWORKS_SPARK.display(0.07F, 0.04F, 0.07F, 0.00005F, 1, item.getLocation(), 50);
@@ -103,7 +98,7 @@ public abstract class GrenadeBasic extends TItem {
                         e.printStackTrace();
                     }
                 }
-                for (Player p : Quake.getOnline()) {
+                for (Player p : Quake.getPlugin().getArenaManager().getArena().getPlayers()) {
                     if (time % 2 == 0.0F) {
                         p.getWorld().playSound(Objects.requireNonNull(item).getLocation(), Sound.BLOCK_NOTE_PLING, 0.5F, 1.5F);
                     } else {
@@ -194,5 +189,4 @@ public abstract class GrenadeBasic extends TItem {
     public GrenadeBasic clone() {
         return (GrenadeBasic) super.clone();
     }
-
 }

@@ -2,8 +2,7 @@ package com.geekpower14.quake.arena;
 
 import com.geekpower14.quake.Quake;
 import com.geekpower14.quake.stuff.TItem;
-import com.geekpower14.quake.utils.Utils;
-import com.geekpower14.quake.utils.Utils.ItemSlot;
+import com.geekpower14.quake.utils.ItemSlot;
 import net.samagames.api.SamaGamesAPI;
 import net.samagames.api.games.GamePlayer;
 import net.samagames.api.games.themachine.messages.IMessageManager;
@@ -38,7 +37,6 @@ import java.util.UUID;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class APlayer extends GamePlayer {
-
     private final Quake plugin;
 
     private final Arena arena;
@@ -117,7 +115,7 @@ public class APlayer extends GamePlayer {
 
     public ItemSlot getSlot() {
         int i = p.getInventory().getHeldItemSlot();
-        for (Utils.ItemSlot is : Utils.ItemSlot.values()) {
+        for (ItemSlot is : ItemSlot.values()) {
             if (i == is.getSlot())
                 return is;
         }

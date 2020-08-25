@@ -170,7 +170,7 @@ public abstract class Arena extends Game<APlayer> {
     protected abstract void execStop();
 
     public void refresh() {
-        plugin.getSamaGamesAPI().getGameManager().refreshArena();
+        SamaGamesAPI.get().getGameManager().refreshArena();
     }
 
     public void disable() {

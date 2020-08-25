@@ -2,22 +2,14 @@ package com.geekpower14.quake;
 
 import com.geekpower14.quake.arena.ArenaManager;
 import com.geekpower14.quake.arena.ArenaStatisticsHelper;
-import com.geekpower14.quake.commands.CommandsManager;
 import com.geekpower14.quake.listener.PlayerListener;
 import com.geekpower14.quake.stuff.ItemManager;
 import net.minecraft.server.v1_12_R1.EntityPlayer;
 import net.samagames.api.SamaGamesAPI;
 import net.samagames.api.games.GamesNames;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Logger;
 
 /*
  * This file is part of Quake.
@@ -36,32 +28,15 @@ import java.util.logging.Logger;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class Quake extends JavaPlugin {
-
     private static Quake plugin;
 
-    private Logger log;
     private ArenaManager arenaManager;
     private ItemManager itemManager;
-
-    private SamaGamesAPI samaGamesAPI;
 
     private String type = "solo";
 
     public static Quake getPlugin() {
         return plugin;
-    }
-
-    public static Boolean hasPermission(Player p, String perm) {
-        return perm.equalsIgnoreCase("") || p.isOp() || p.hasPermission(perm);
-    }
-
-    public static List<Player> getOnline() {
-        List<Player> list = new ArrayList<>();
-
-        for (World world : Bukkit.getWorlds()) {
-            list.addAll(world.getPlayers());
-        }
-        return Collections.unmodifiableList(list);
     }
 
     public static int getPing(Player p) {
@@ -76,11 +51,9 @@ public class Quake extends JavaPlugin {
     }
 
     public void onEnable() {
-        log = getLogger();
         plugin = this;
 
-        samaGamesAPI = SamaGamesAPI.get();
-        samaGamesAPI.getGameManager().setGameStatisticsHelper(new ArenaStatisticsHelper());
+        SamaGamesAPI.get().getGameManager().setGameStatisticsHelper(new ArenaStatisticsHelper());
 
         this.getServer().getWorld("world").setAutoSave(false);
 
@@ -92,25 +65,16 @@ public class Quake extends JavaPlugin {
 
         itemManager = new ItemManager();
 
-        CommandsManager commandsManager = new CommandsManager(this);
-
-        getCommand("q").setExecutor(commandsManager);
-
         this.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-        samaGamesAPI.getStatsManager().setStatsToLoad(GamesNames.QUAKE, true);
-        samaGamesAPI.getGameManager().setKeepPlayerCache(true);
-        log.info("quake enabled!");
+        SamaGamesAPI.get().getStatsManager().setStatsToLoad(GamesNames.QUAKE, true);
+        SamaGamesAPI.get().getGameManager().setKeepPlayerCache(true);
+        getLogger().info("quake enabled!");
     }
 
     public void onDisable() {
-        //TabTask.cancel();
         arenaManager.disable();
 
-        log.info("quake disabled!");
-    }
-
-    public SamaGamesAPI getSamaGamesAPI() {
-        return samaGamesAPI;
+        getLogger().info("quake disabled!");
     }
 
     public ArenaManager getArenaManager() {

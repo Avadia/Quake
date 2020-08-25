@@ -5,7 +5,7 @@ import com.geekpower14.quake.arena.APlayer;
 import com.geekpower14.quake.arena.Arena;
 import com.geekpower14.quake.arena.ArenaStatisticsHelper;
 import com.geekpower14.quake.stuff.TItem;
-import com.geekpower14.quake.utils.Utils;
+import com.geekpower14.quake.utils.ItemSlot;
 import net.minecraft.server.v1_12_R1.*;
 import net.samagames.api.SamaGamesAPI;
 import net.samagames.tools.ParticleEffect;
@@ -38,7 +38,6 @@ import java.util.List;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public abstract class HoeBasic extends TItem {
-
     public FireworkEffect effect;
 
     public double aim = 1.5;
@@ -141,7 +140,7 @@ public abstract class HoeBasic extends TItem {
 
         // Filtre de target
         List<Player> targets = new ArrayList<>();
-        for (Player online : Quake.getOnline()) {
+        for (Player online : Quake.getPlugin().getArenaManager().getArena().getPlayers()) {
             if (online != player && online.getLocation().distanceSquared(playerEyes) < maxRange * maxRange) {
                 targets.add(online);
             }
@@ -221,11 +220,10 @@ public abstract class HoeBasic extends TItem {
         return target;
     }
 
-    public void leftAction(APlayer p, Utils.ItemSlot slot) {
-
+    public void leftAction(APlayer p, ItemSlot slot) {
     }
 
-    public void rightAction(APlayer ap, Utils.ItemSlot slot) {
+    public void rightAction(APlayer ap, ItemSlot slot) {
         basicShot(ap.getP());
     }
 
@@ -233,5 +231,4 @@ public abstract class HoeBasic extends TItem {
     public HoeBasic clone() {
         return (HoeBasic) super.clone();
     }
-
 }

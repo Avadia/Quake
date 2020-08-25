@@ -392,7 +392,7 @@ public class ArenaTeam extends Arena {
             return;
         }
 
-        if (getStatus() == Status.IN_GAME && !Quake.hasPermission(p, "quake.ChangeTeamInGame")) {
+        if (getStatus() == Status.IN_GAME) {
             p.sendMessage(coherenceMachine.getGameTag() + ChatColor.RED + "Vous ne pouvez pas changer de Team en jeu.");
             return;
         }

@@ -24,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class IronHoe extends HoeBasic {
-
     public IronHoe() {
         super(83,
                 ChatColor.DARK_AQUA + "QuickGun",

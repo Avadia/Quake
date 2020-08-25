@@ -1,6 +1,7 @@
 package com.geekpower14.quake.arena;
 
 import com.geekpower14.quake.Quake;
+import net.samagames.api.SamaGamesAPI;
 import org.bukkit.entity.Player;
 
 /*
@@ -76,7 +77,7 @@ public class ArenaManager {
             arena = new ArenaSolo(plugin);
         }
 
-        plugin.getSamaGamesAPI().getGameManager().registerGame(arena);
+        SamaGamesAPI.get().getGameManager().registerGame(arena);
         ARENA = arena;
     }
 

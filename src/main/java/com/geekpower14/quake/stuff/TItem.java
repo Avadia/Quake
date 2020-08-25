@@ -2,7 +2,7 @@ package com.geekpower14.quake.stuff;
 
 import com.geekpower14.quake.Quake;
 import com.geekpower14.quake.arena.APlayer;
-import com.geekpower14.quake.utils.Utils;
+import com.geekpower14.quake.utils.ItemSlot;
 import net.samagames.tools.GlowEffect;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -26,7 +26,6 @@ import java.util.Arrays;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public abstract class TItem implements Cloneable {
-
     protected static Quake plugin;
     private final String alias;
     protected int id;
@@ -43,10 +42,6 @@ public abstract class TItem implements Cloneable {
         plugin = Quake.getPlugin();
     }
 
-    public static ItemStack addGlow(ItemStack item) {
-        return GlowEffect.addGlow(item);
-    }
-
     public static ItemStack setItemNameAndLore(ItemStack item, String name, String[] lore, boolean glow) {
         ItemMeta im = item.getItemMeta();
         if (im == null)
@@ -58,7 +53,7 @@ public abstract class TItem implements Cloneable {
         item.setItemMeta(im);
         try {
             if (glow)
-                item = addGlow(item);
+                item = GlowEffect.addGlow(item);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,27 +70,6 @@ public abstract class TItem implements Cloneable {
 
     public String getDisplayName() {
         return alias;
-    }
-
-    public Boolean istheSame(ItemStack it) {
-        ItemStack item = this.getItem();
-
-        ItemMeta meta = item.getItemMeta();
-        ItemMeta met = it.getItemMeta();
-
-        if (meta == null && met == null) {
-            return true;
-        }
-
-        if (meta == null || met == null) {
-            return false;
-        }
-
-        if (!meta.getDisplayName().equalsIgnoreCase(met.getDisplayName())) {
-            return false;
-        }
-
-        return meta.getLore().equals(met.getLore());
     }
 
     public Object clone() {
@@ -123,10 +97,9 @@ public abstract class TItem implements Cloneable {
 
     public abstract ItemStack getItem();
 
-    public abstract void rightAction(APlayer ap, Utils.ItemSlot slot);
+    public abstract void rightAction(APlayer ap, ItemSlot slot);
 
-    public abstract void leftAction(APlayer p, Utils.ItemSlot slot);
+    public abstract void leftAction(APlayer p, ItemSlot slot);
 
     //public abstract void onItemTouchGround(arena arena, Item item);
-
 }
