@@ -18,6 +18,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +42,9 @@ import java.util.Random;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class ArenaSolo extends Arena {
-
     public List<Spawn> spawn = new ArrayList<>();
     private final ScoreHandler scoreHandler;
+    private BukkitTask gameTime;
 
     public ArenaSolo(Quake pl) {
         super(pl);
@@ -114,7 +115,6 @@ public class ArenaSolo extends Arena {
 
     @Override
     protected void execStart() {
-
         for (APlayer ap : getInGamePlayers().values()) {
             Player p = ap.getP();
 
@@ -127,8 +127,33 @@ public class ArenaSolo extends Arena {
                 giveEffect(p);
 
                 ap.setReloading(20L);
+
+                ap.getObjective().getScore(ChatColor.GOLD + "▪ Objectif : ").setScore(goal);
             });
         }
+
+        this.gameTime = this.plugin.getServer().getScheduler().runTaskTimerAsynchronously(this.plugin, new Runnable() {
+            private int time = 0;
+
+            @Override
+            public void run() {
+                this.time++;
+                String title = "" + ChatColor.RED + ChatColor.BOLD + "Quake" + ChatColor.RESET + " | " + ChatColor.YELLOW + this.formatTime(this.time);
+                getInGamePlayers().values().forEach(aPlayer -> {
+                    aPlayer.getObjective().setDisplayName(title);
+                    aPlayer.getObjective().updateScore(true);
+                });
+            }
+
+            public String formatTime(int time) {
+                int mins = time / 60;
+                int secs = time - mins * 60;
+
+                String secsSTR = (secs < 10) ? "0" + secs : secs + "";
+
+                return mins + ":" + secsSTR;
+            }
+        }, 0L, 20L);
     }
 
     @Override

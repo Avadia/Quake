@@ -57,7 +57,7 @@ public class APlayer extends GamePlayer {
         this.arena = arena;
         this.p = p;
 
-        objective = new VObjective("quake", "" + ChatColor.RED + ChatColor.BOLD + "Quake");
+        objective = new VObjective("quake", "" + ChatColor.RED + ChatColor.BOLD + "Quake" + ChatColor.RESET + " | " + ChatColor.YELLOW + "00:00");
         objective.addReceiver(p);
 
         resquestStuff();
@@ -357,6 +357,10 @@ public class APlayer extends GamePlayer {
 
     public void setLevel(int xp) {
         p.setLevel(xp);
+    }
+
+    public VObjective getObjective() {
+        return objective;
     }
 
     public enum Role {

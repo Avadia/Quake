@@ -37,7 +37,6 @@ import java.util.stream.Collectors;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public abstract class Arena extends Game<APlayer> {
-
     public Quake plugin;
 
     /*** Constantes ***/

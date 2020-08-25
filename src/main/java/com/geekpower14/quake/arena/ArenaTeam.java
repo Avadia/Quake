@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
  * along with Quake.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class ArenaTeam extends Arena {
-
     public List<ATeam> teams = new ArrayList<>();
 
     public HashMap<String, List<Spawn>> spawns = new HashMap<>();
