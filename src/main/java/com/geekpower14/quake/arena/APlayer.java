@@ -135,6 +135,7 @@ public class APlayer extends GamePlayer {
                 objective.getScore(aPlayer.getName()).setScore(aPlayer.getScore());
             }
             objective.getScore(getName()).setScore(getScore());
+            objective.getScore(ChatColor.GOLD + "▪ Objectif : ").setScore(arenaSolo.goal);
             objective.updateScore(true);
         }
 
