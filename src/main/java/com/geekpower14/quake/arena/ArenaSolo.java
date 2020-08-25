@@ -127,8 +127,6 @@ public class ArenaSolo extends Arena {
                 giveEffect(p);
 
                 ap.setReloading(20L);
-
-                ap.getObjective().getScore(ChatColor.GOLD + "▪ Objectif : ").setScore(goal);
             });
         }
 
