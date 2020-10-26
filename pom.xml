@@ -5,7 +5,7 @@
 
     <groupId>net.samagames</groupId>
     <artifactId>Quake</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.0-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,6 +17,14 @@
         <repository>
             <id>papermc-repo</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>avadia-minecraft-snapshot</id>
+            <url>https://nexus.avadia.fr/repository/avadia-minecraft-snapshot/</url>
+        </repository>
+        <repository>
+            <id>avadia-minecraft-release</id>
+            <url>https://nexus.avadia.fr/repository/avadia-minecraft-release/</url>
         </repository>
     </repositories>
 
@@ -36,8 +44,19 @@
         <dependency>
             <groupId>net.samagames</groupId>
             <artifactId>SamaGamesAPI</artifactId>
-            <version>5.0.0</version>
+            <version>5.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>avadia-minecraft-snapshot</id>
+            <url>https://nexus.avadia.fr/repository/avadia-minecraft-snapshot/</url>
+        </snapshotRepository>
+        <repository>
+            <id>avadia-minecraft-release</id>
+            <url>https://nexus.avadia.fr/repository/avadia-minecraft-release/</url>
+        </repository>
+    </distributionManagement>
 </project>
