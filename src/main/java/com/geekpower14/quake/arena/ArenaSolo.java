@@ -157,6 +157,7 @@ public class ArenaSolo extends Arena {
     @Override
     protected void execStop() {
         scoreHandler.stop();
+        this.gameTime.cancel();
     }
 
     @Override
